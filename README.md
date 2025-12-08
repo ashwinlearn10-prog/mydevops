@@ -1,0 +1,644 @@
+# Git
+#
+# # Install Git in Debian Linux distributions like Ubuntu
+sudo apt-get update
+sudo apt-get install -y git
+
+# Install Git in RedHast distributions like RHEl, CentOs
+sudo yum update
+sudo yum install -y git
+
+# Show's the current git version
+git --version
+
+# List global configuration for the current user
+git config --global --list
+
+# Set the name and email to the git global configuration
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
+
+# To Verify the previous commands
+git config --global --list
+
+# Check for .gitconfig file in user's home directory
+ls -la ~
+
+# Look the git global configuration written to this file at the user's home directory
+cat ~/.gitconfig
+
+# Create a directory
+mkdir myfirstrepo
+
+# Change the working directory to myrepo
+cd myfirstrepo
+
+# Create the index.html file and insert the Hello World text to the html file
+echo "Hello World" > index.html
+
+ls -la
+
+# View the index.html file
+cat index.html
+
+# Check the status of the index.html file. Returns an error saying a not a git repository
+git status
+
+# Create an empty Git repository
+git init
+
+# Look for the .git directory in the current directory
+ls -la
+
+# Check the status of the index.html file. index.html will be a untracked file
+git status
+
+# Add the file to the staging area
+git add index.html
+
+
+# Check status again. index.html will be in the "Changes to be committed section"
+git status
+
+# Remove the file from the staging area to the working directory
+git rm --cached index.html
+
+# Verify by checking git status
+git status
+
+# Adds all the files in working directory to the staging area
+git add .
+
+# Check status again to verify the last command
+git status
+
+# List all your commits. As of now, it will be empty
+git log
+
+# Moves all your changes in staging area to the local repository
+git commit -m "Initial Commit"
+
+# Your last commit should be listed here
+git log
+
+
+
+# Create some dummy files
+echo "Hi" > index.html
+echo "commit2" > help.txt
+
+# Check status of those files
+git status
+
+# Add the index.html file to the staging area
+git add index.html
+
+# Check status again
+git status
+
+# Add the text to the index.html
+echo "This is my 2nd line" >> index.html
+
+# Check the status again
+git status
+
+# Show changes between last two commits
+git diff
+
+# Append new text to the help.txt file
+echo "new line" >> help.txt
+
+# Add all the files to the staging area
+git add .
+
+# Check status again
+git status
+
+# Make your second commit
+git commit -m "Second Commit"
+
+# Check status again
+git status
+
+# Verify your commit using git log
+git log
+
+# Check changes between two commits by passing commit ID
+git diff COMMIT_ID_1 COMMIT_ID_2
+
+# Check the changes made in each commit
+git log -p
+
+# The following prints the commit message alone with commit ID
+git log --oneline
+
+# Add one more change
+echo "Completely new change" > index.html
+
+# Check the status
+git status
+
+# Print the file's content
+cat index.html
+
+# List the stashes in your repository
+git stash list
+
+# Stash the changes in your working directory
+git stash
+
+# List the stashes that you currently have
+git stash list
+
+# Print the content of the file again to check
+cat index.html
+
+# Check the git status
+git status
+
+# Move the changes from stash to the working directory
+git stash pop
+
+# Check if the stash still exists
+git stash list
+
+# See the modifications applied by the stash in your working directory
+git status
+
+
+#####
+#
+Working with Remote repository 
+
+[root@ip-192-168-10-144 dev-git]# ls
+file.txt  index.html
+[root@ip-192-168-10-144 dev-git]# git status
+On branch master
+nothing to commit, working tree clean
+[root@ip-192-168-10-144 dev-git]# git log --oneline
+8758549 (HEAD -> master)  msg
+2f99cb9 third commit
+950041a second commit
+6e76046 Initial Commit
+[root@ip-192-168-10-144 dev-git]# git remote add origin https://github.com/kloudvsol/dec-dev
+[root@ip-192-168-10-144 dev-git]#
+
+
+
+[root@ip-192-168-10-144 dev-git]# git remote -v
+origin  https://github.com/kloudvsol/dec-dev (fetch)
+origin  https://github.com/kloudvsol/dec-dev (push)
+[root@ip-192-168-10-144 dev-git]#
+
+### Git push to sync data from local to remote repo 
+
+[root@ip-192-168-10-144 dev-git]# git push -u origin master
+Username for 'https://github.com': kloudvsol
+Password for 'https://kloudvsol@github.com':
+Enumerating objects: 13, done.
+Counting objects: 100% (13/13), done.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (13/13), 1.01 KiB | 1.01 MiB/s, done.
+Total 13 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/kloudvsol/dec-dev
+ * [new branch]      master -> master
+branch 'master' set up to track 'origin/master'.
+[root@ip-192-168-10-144 dev-git]#
+
+#### GIT PULL to pull datat from remote repo
+
+[root@ip-192-168-10-144 dev-git]# git pull
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 977 bytes | 977.00 KiB/s, done.
+From https://github.com/kloudvsol/dec-dev
+   ba32ccf..380b781  master     -> origin/master
+Updating ba32ccf..380b781
+Fast-forward
+ index.html | 1 +
+ 1 file changed, 1 insertion(+)
+[root@ip-192-168-10-144 dev-git]# ll
+total 8
+-rw-r--r-- 1 root root 10 Dec 11 01:58 file.txt
+-rw-r--r-- 1 root root 99 Dec 12 02:23 index.html
+[root@ip-192-168-10-144 dev-git]# cat index.html
+Hello World
+
+new line
+line 2
+
+git change
+
+change made from local git repo
+changes made from gitub
+[root@ip-192-168-10-144 dev-git]#
+
+
+###
+#
+#Git Conflict 
+#
+[root@ip-192-168-10-144 ~]# cd dev-git
+[root@ip-192-168-10-144 dev-git]# ls
+file.txt  index.html
+[root@ip-192-168-10-144 dev-git]# git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+[root@ip-192-168-10-144 dev-git]# vi file.txt
+[root@ip-192-168-10-144 dev-git]# cat file.txt
+new file
+
+new line from git local
+[root@ip-192-168-10-144 dev-git]# git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   file.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[root@ip-192-168-10-144 dev-git]# git add .
+[root@ip-192-168-10-144 dev-git]# git commit -m " msg"
+[master 1685f18]  msg
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]# git push -u origin master
+Username for 'https://github.com': kloudvsol
+Password for 'https://kloudvsol@github.com':
+To https://github.com/kloudvsol/dec-dev
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'https://github.com/kloudvsol/dec-dev'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+[root@ip-192-168-10-144 dev-git]# git pull
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 968 bytes | 968.00 KiB/s, done.
+From https://github.com/kloudvsol/dec-dev
+   380b781..114f1cb  master     -> origin/master
+hint: You have divergent branches and need to specify how to reconcile them.
+hint: You can do so by running one of the following commands sometime before
+hint: your next pull:
+hint:
+hint:   git config pull.rebase false  # merge
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint:
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+fatal: Need to specify how to reconcile divergent branches.
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]# git push -u origin master --force
+Username for 'https://github.com': kloudvol
+Password for 'https://kloudvol@github.com':
+[root@ip-192-168-10-144 dev-git]# git push -u origin master --force
+Username for 'https://github.com': kloudvsol
+Password for 'https://kloudvsol@github.com':
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 307 bytes | 307.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/kloudvsol/dec-dev
+ + 114f1cb...1685f18 master -> master (forced update)
+branch 'master' set up to track 'origin/master'.
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]# vi file.txt
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]# git add .
+[root@ip-192-168-10-144 dev-git]# git commit -m "msg"
+[master b683e59] msg
+ 1 file changed, 2 insertions(+)
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]# git push -u origin master
+Username for 'https://github.com': kloudvsol
+Password for 'https://kloudvsol @github.com':
+To https://github.com/kloudvsol/dec-dev
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'https://github.com/kloudvsol/dec-dev'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]# git pull
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 977 bytes | 488.00 KiB/s, done.
+From https://github.com/kloudvsol/dec-dev
+   1685f18..ad10a1f  master     -> origin/master
+hint: You have divergent branches and need to specify how to reconcile them.
+hint: You can do so by running one of the following commands sometime before
+hint: your next pull:
+hint:
+hint:   git config pull.rebase false  # merge
+hint:   git config pull.rebase true   # rebase
+hint:   git config pull.ff only       # fast-forward only
+hint:
+hint: You can replace "git config" with "git config --global" to set a default
+hint: preference for all repositories. You can also pass --rebase, --no-rebase,
+hint: or --ff-only on the command line to override the configured default per
+hint: invocation.
+fatal: Need to specify how to reconcile divergent branches.
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]# git fetch
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]# git merge
+Auto-merging file.txt
+CONFLICT (content): Merge conflict in file.txt
+Automatic merge failed; fix conflicts and then commit the result.
+[root@ip-192-168-10-144 dev-git]# vi file.txt
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]# git status
+On branch master
+Your branch and 'origin/master' have diverged,
+and have 1 and 1 different commits each, respectively.
+  (use "git pull" to merge the remote branch into yours)
+
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+        both modified:   file.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[root@ip-192-168-10-144 dev-git]#
+[root@ip-192-168-10-144 dev-git]# git add .
+[root@ip-192-168-10-144 dev-git]# git commit -m "msg"
+[master a6ded35] msg
+[root@ip-192-168-10-144 dev-git]# git push -u origin master
+Username for 'https://github.com': kloudvsol
+Password for 'https://kloudvsol@github.com':
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 604 bytes | 604.00 KiB/s, done.
+Total 6 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), done.
+To https://github.com/kloudvsol/dec-dev
+   ad10a1f..a6ded35  master -> master
+branch 'master' set up to track 'origin/master'.
+
+###
+#
+#GIT BRANCH
+#
+[root@server ~]# ls
+carvilla-v1.0  dev-git  mygit
+carvilla.zip   devops
+[root@server ~]# cd dev-git
+[root@server dev-git]# ls
+file.txt  index.html
+[root@server dev-git]# git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+[root@server dev-git]#
+[root@server dev-git]#
+
+## list branch 
+[root@server dev-git]# git branch
+* master
+
+# create branch 
+[root@server dev-git]# git branch newbranch
+[root@server dev-git]# git branch
+* master
+  newbranch
+
+# delete branch 
+#
+[root@server dev-git]# git branch -D newbranch
+Deleted branch newbranch (was a6ded35).
+[root@server dev-git]# git branch
+* master
+[root@server dev-git]#
+
+
+# change branch 
+#
+[root@server dev-git]# git branch
+* master
+  newbranch
+
+
+[root@server dev-git]# git checkout newbranch
+Switched to branch 'newbranch'
+
+
+[root@server dev-git]# git branch
+  master
+* newbranch
+
+# change branch 
+#
+[root@server dev-git]# git branch
+* master
+  newbranch
+
+
+[root@server dev-git]# git checkout newbranch
+Switched to branch 'newbranch'
+
+
+[root@server dev-git]# git branch
+  master
+* newbranch
+
+# change branch 
+#
+[root@server dev-git]# git branch
+* master
+  newbranch
+
+
+[root@server dev-git]# git checkout newbranch
+Switched to branch 'newbranch'
+
+
+[root@server dev-git]# git branch
+  master
+* newbranch
+
+# Merge branch 
+#
+[root@server dev-git]# git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+[root@server dev-git]#
+[root@server dev-git]#
+[root@server dev-git]# git branch
+* master
+  newbranch
+
+
+[root@server dev-git]# git merge newbranch
+Updating a6ded35..58d1fc6
+Fast-forward
+ index.html | 2 ++
+ 1 file changed, 2 insertions(+)
+[root@server dev-git]#
+
+
+###
+#Git Revert 
+#
+[root@server ~]# ls
+carvilla-v1.0  dev-git  mygit
+carvilla.zip   devops
+[root@server ~]# cd dev-git/
+[root@server dev-git]# git status
+On branch newbranch
+Your branch is up to date with 'origin/newbranch'.
+
+nothing to commit, working tree clean
+[root@server dev-git]#
+
+
+
+[root@server dev-git]# cat file.txt
+new file
+
+new line from git local
+
+changed by local
+changed by remote
+changes made to check revert
+[root@server dev-git]#
+[root@server dev-git]#
+[root@server dev-git]# git status
+On branch newbranch
+Your branch is up to date with 'origin/newbranch'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   file.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[root@server dev-git]#
+
+
+[root@server dev-git]# git log --oneline
+cff3375 (HEAD -> newbranch) my-commit
+58d1fc6 (origin/newbranch, master)  msg
+a6ded35 (origin/master) msg
+b683e59 msg
+ad10a1f Update file.txt
+1685f18  msg
+380b781 Update index.html
+ba32ccf msg
+8758549  msg
+2f99cb9 third commit
+950041a second commit
+[root@server dev-git]# git revert cff3375
+hint: Waiting for your editor to close the file...[newbranch 38fe6b3] Revert "my-commit"
+ 1 file changed, 1 deletion(-)
+[root@server dev-git]#
+[root@server dev-git]#
+[root@server dev-git]# cat file.txt
+new file
+
+new line from git local
+
+changed by local
+changed by remote
+[root@server dev-git]#
+
+###
+#Revert on the revert commit 
+[root@server dev-git]# git log --oneline
+38fe6b3 (HEAD -> newbranch) Revert "my-commit"
+cff3375 my-commit
+58d1fc6 (origin/newbranch, master)  msg
+a6ded35 (origin/master) msg
+b683e59 msg
+ad10a1f Update file.txt
+1685f18  msg
+380b781 Update index.html
+ba32ccf msg
+8758549  msg
+2f99cb9 third commit
+[root@server dev-git]# git revert 38fe6b3
+hint: Waiting for your editor to close the file...[newbranch d1af54c] Revert "Revert "my-commit""
+ 1 file changed, 1 insertion(+)
+[root@server dev-git]# cat file.txt
+new file
+
+new line from git local
+
+changed by local
+changed by remote
+changes made to check revert
+[root@server dev-git]#
+
+
+# git reset 
+#
+[root@server dev-git]# git log --oneline
+d1af54c (HEAD -> newbranch) Revert "Revert "my-commit""
+38fe6b3 Revert "my-commit"
+cff3375 my-commit
+58d1fc6 (origin/newbranch, master)  msg
+a6ded35 (origin/master) msg
+b683e59 msg
+ad10a1f Update file.txt
+1685f18  msg
+380b781 Update index.html
+ba32ccf msg
+[root@server dev-git]# git reset cff3375
+[root@server dev-git]#
+
+
+[root@server dev-git]# git log --oneline
+58d1fc6 (HEAD -> newbranch, origin/newbranch, master)  msg
+a6ded35 (origin/master) msg
+b683e59 msg
+ad10a1f Update file.txt
+1685f18  msg
+380b781 Update index.html
+ba32ccf msg
+8758549  msg
+2f99cb9 third commit
+950041a second commit
+6e76046 Initial Commit
+
+# Hard reset 
+#
+[root@server dev-git]# git reset 58d1fc6 --hard
+HEAD is now at 58d1fc6  msg
+[root@server dev-git]#
+[root@server dev-git]# cat file.txt
+new file
+
+new line from git local
+
+changed by local
+changed by remote
